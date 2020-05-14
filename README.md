@@ -53,19 +53,28 @@ dependencies {
     }
 
 ```
-### B.退出登录
+### B.AndroidManifest.xml配置
+```
+    <application>
+        <!--极光推送-->
+        <meta-data
+            android:name="JPUSH_APPKEY"
+            android:value="ac0c04b9441c9077a53931a4" /> <!--值来自开发者平台取得的AppKey-->
+    </application>
+```
+### C.退出推送
 ```
         JPush.logout(context);
 ```
-### C.停止推送
+### D.停止推送
 ```
         JPush.stopPush(context);
 ```
-### D.恢复推送
+### E.恢复推送
 ```
         JPush.resumePush(context);
 ```
-### E.Tag/Alias监听
+### F.Tag/Alias监听
 ```
         public interface OnJPushAliasTagsListener {
 
