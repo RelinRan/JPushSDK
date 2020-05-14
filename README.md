@@ -41,7 +41,7 @@ dependencies {
 ```
     private void initJPush(String alias) {
         JPush.setDebugMode(true);
-        //监听有连接监听 + Tag/Alias操作监听
+        //消息监听 + Tag/Alias操作监听
         JPush.addJPushListener(null,null);
         JPush.init(this, alias);
     }
