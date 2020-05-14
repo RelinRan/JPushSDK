@@ -1,6 +1,6 @@
 # AndroidKit
 Android 极光推送集成（Android aurora push integration）
-
+[官方文档]（https://docs.jiguang.cn/jpush/client/Android/android_sdk/）
 ## 方法一  ARR依赖
 [JPushSDK.arr](https://github.com/RelinRan/JPushSDK/blob/master/JPushSDK.aar)
 ```
@@ -36,6 +36,7 @@ dependencies {
 	}
 ```
 ## Application配置
+
 
 ### A.初始化和销毁
 ```
@@ -75,6 +76,7 @@ dependencies {
         JPush.resumePush(context);
 ```
 ### F.Tag/Alias监听
+[官方客户端错误码定义](https://docs.jiguang.cn/jpush/client/Android/android_api/#_248)
 ```
         public interface OnJPushAliasTagsListener {
 
