@@ -33,8 +33,6 @@ dependencies {
 ```
 	dependencies {
 	        implementation 'com.github.RelinRan:JPushSDK:1.0.0'
-	        implementation 'com.android.support:design:27.+'
-                implementation 'com.android.support:recyclerview-v7:27.+'
 	}
 ```
 ## Application配置
@@ -63,7 +61,101 @@ dependencies {
 ```
         JPush.stopPush(context);
 ```
-### C.恢复推送
+### D.恢复推送
 ```
         JPush.resumePush(context);
+```
+### E.Tag/Alias监听
+```
+        public interface OnJPushAliasTagsListener {
+
+            /**
+             * Tag和Alias增删查改的操作会在此方法中回调结果。
+             *
+             * @param context
+             * @param jPushMessage
+             */
+            void onTagOperatorResult(Context context, JPushMessage jPushMessage);
+
+            /**
+             * 查询某个Tag与当前用户的绑定状态的操作会在此方法中回调结果。
+             *
+             * @param context
+             * @param jPushMessage
+             */
+            void onCheckTagOperatorResult(Context context, JPushMessage jPushMessage);
+
+            /**
+             * Alias相关的操作会在此方法中回调结果。
+             *
+             * @param context
+             * @param jPushMessage
+             */
+            void onAliasOperatorResult(Context context, JPushMessage jPushMessage);
+
+            /**
+             * 设置手机号码会在此方法中回调结果。
+             *
+             * @param context
+             * @param jPushMessage
+             */
+            void onMobileNumberOperatorResult(Context context, JPushMessage jPushMessage);
+
+        }
+```
+### E.Tag/Alias监听
+```
+public interface OnJPushMessageListener {
+
+    /**
+     * 消息注册
+     *
+     * @param bundle
+     * @param id
+     */
+    void onRegistrationId(Bundle bundle, String id);
+
+    /**
+     * 自定义消息
+     *
+     * @param bundle  参数
+     * @param title   标题
+     * @param message 消息
+     * @param extras  额外参数
+     */
+    void onMessageReceived(Bundle bundle, String title, String message, String extras);
+
+    /**
+     * 通知消息
+     *
+     * @param bundle  参数
+     * @param title   标题
+     * @param message 消息
+     * @param extras  额外参数
+     */
+    void onNotificationReceived(Bundle bundle, String title, String message, String extras);
+
+    /**
+     * 通知栏点击
+     *
+     * @param bundle 参数
+     */
+    void onNotificationOpened(Bundle bundle);
+
+    /**
+     * 富文本
+     *
+     * @param bundle 参数
+     */
+    void onRichPushCallback(Bundle bundle);
+
+    /**
+     * 连接状态
+     *
+     * @param bundle      参数
+     * @param isConnected 是否连接
+     */
+    void onConnectionChange(Bundle bundle, boolean isConnected);
+
+}
 ```
