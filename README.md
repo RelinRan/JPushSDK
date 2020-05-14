@@ -75,8 +75,7 @@ dependencies {
 ```
         JPush.resumePush(context);
 ```
-### F.Tag/Alias监听
-[官方客户端错误码定义](https://docs.jiguang.cn/jpush/client/Android/android_api/#_248)
+### F.Tag/Alias监听[官方客户端错误码定义](https://docs.jiguang.cn/jpush/client/Android/android_api/#_248)
 ```
         public interface OnJPushAliasTagsListener {
 
