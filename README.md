@@ -112,7 +112,7 @@ dependencies {
 
         }
 ```
-### E.Tag/Alias监听
+### E.消息监听
 ```
 public interface OnJPushMessageListener {
 
