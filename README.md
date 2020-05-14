@@ -1,6 +1,6 @@
 # AndroidKit
 Android 极光推送集成（Android aurora push integration）
-[官方文档]（https://docs.jiguang.cn/jpush/client/Android/android_sdk/）
+[官方API文档](https://docs.jiguang.cn/jpush/client/Android/android_sdk/)
 ## 方法一  ARR依赖
 [JPushSDK.arr](https://github.com/RelinRan/JPushSDK/blob/master/JPushSDK.aar)
 ```
