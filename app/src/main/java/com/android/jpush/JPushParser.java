@@ -29,7 +29,6 @@ import java.util.Map;
 
 public class JPushParser {
 
-
     /**
      * JSONObject字符对象装JSONObject
      *
@@ -44,6 +43,7 @@ public class JPushParser {
         try {
             jsonObject = new JSONObject(jsonStr);
         } catch (JSONException e) {
+            System.out.println("->Json = " + jsonStr);
             e.printStackTrace();
         }
         return jsonObject;
@@ -82,6 +82,9 @@ public class JPushParser {
      */
     public static Map<String, String> parseJSONObject(String jsonStr) {
         if (jsonStr == null || jsonStr.length() == 0 || jsonStr.equals("null")) {
+            return null;
+        }
+        if (jsonStr.startsWith("{}")) {
             return null;
         }
         return parseJSONObject(parseJSONObjectString(jsonStr));
@@ -254,17 +257,8 @@ public class JPushParser {
         if (jsonStr == null || jsonStr.length() == 0 || jsonStr.equals("null")) {
             return null;
         }
-        if (jsonStr.contains("\"[")) {
-            jsonStr = jsonStr.replace("\"[", "[");
-        }
-        if (jsonStr.contains("]\"")) {
-            jsonStr = jsonStr.replace("]\"", "]");
-        }
-        if (jsonStr.contains("\"{")) {
-            jsonStr = jsonStr.replace("\"{", "}");
-        }
-        if (jsonStr.contains("}\"")) {
-            jsonStr = jsonStr.replace("}\"", "}");
+        if (!jsonStr.startsWith("[{") && !jsonStr.endsWith("}]")) {
+            return null;
         }
         JSONArray jsonArray = null;
         try {
@@ -314,7 +308,11 @@ public class JPushParser {
         if (jsonStr.equals("[]")) {
             return new ArrayList<>();
         }
-        return parseJSONArray(parseJSONArrayString(jsonStr));
+        JSONArray array = parseJSONArrayString(jsonStr);
+        if (array == null) {
+            return null;
+        }
+        return parseJSONArray(array);
     }
 
     /**
@@ -339,7 +337,8 @@ public class JPushParser {
                 //正常的JSON Array
                 if (jsonStr.startsWith("[{")) {
                     JSONArray jsonArray = parseJSONArrayString(jsonStr);
-                    for (int i = 0; i < jsonArray.length(); i++) {
+                    int size = jsonArray == null ? 0 : jsonArray.length();
+                    for (int i = 0; i < size; i++) {
                         JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                         T t = parseJSONObject(fieldParamsCls, jsonObject);
                         list.add(t);
@@ -399,7 +398,14 @@ public class JPushParser {
         if (jsonStr.equals("[]")) {
             return new ArrayList<>();
         }
-        return parseJSONArray(cls, parseJSONArrayString(jsonStr));
+        if (!jsonStr.startsWith("[") && !jsonStr.endsWith("]")) {
+            return new ArrayList<>();
+        }
+        JSONArray array = parseJSONArrayString(jsonStr);
+        if (array == null) {
+            return new ArrayList<>();
+        }
+        return parseJSONArray(cls, array);
     }
 
     /**
@@ -417,7 +423,7 @@ public class JPushParser {
             String value = map.get(key);
             value = value == null ? "" : value;
             sb.append("\"" + key + "\":");
-            if (value.contains("[") && value.contains("]")) {
+            if (value.startsWith("[") && value.endsWith("]")) {
                 sb.append(value);
             } else {
                 sb.append("\"" + value + "\"");
@@ -425,8 +431,7 @@ public class JPushParser {
             sb.append(",");
         }
         if (sb.toString().contains(",")) {
-            int lastIndex = sb.lastIndexOf(",");
-            sb.replace(lastIndex, lastIndex + 1, "");
+            sb.deleteCharAt(sb.lastIndexOf(","));
         }
         sb.append("}");
         return sb.toString();
@@ -451,8 +456,7 @@ public class JPushParser {
             sb.append(",");
         }
         if (sb.toString().contains(",")) {
-            int lastIndex = sb.lastIndexOf(",");
-            sb.replace(lastIndex, lastIndex + 1, "");
+            sb.deleteCharAt(sb.lastIndexOf(","));
         }
         sb.append("]");
         return sb.toString();
@@ -565,7 +569,7 @@ public class JPushParser {
      * @return
      */
     public static List<String> parseJSONList(String json) {
-        if (json != null && !json.equals("null")&&json.startsWith("[") && !json.startsWith("[{")){
+        if (json != null && !json.equals("null") && json.startsWith("[") && !json.startsWith("[{")) {
             List<String> list = new ArrayList<>();
             String result = json.replace("[", "").replace("]", "");
             String listStr[] = result.split(",");

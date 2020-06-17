@@ -28,15 +28,21 @@ public class JPushReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         try {
             Bundle bundle = intent.getExtras();
-            Log.i(TAG, "->onReceive  action: " + intent.getAction() + ", extras: " + printBundle(bundle));
+            if (JPush.debugMode()){
+                Log.i(TAG, "->onReceive  action: " + intent.getAction() + ", extras: " + printBundle(bundle));
+            }
             Intent receiverIntent = new Intent(JPush.START_TRANSIT+intent.getAction());
             receiverIntent.putExtras(bundle);
             context.sendBroadcast(receiverIntent);
             if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
                 String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
-                Log.i(TAG, "->registration Id : " + regId);
+                if (JPush.debugMode()){
+                    Log.i(TAG, "->registration Id : " + regId);
+                }
             } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
-                Log.i(TAG, "->custom message: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
+                if (JPush.debugMode()){
+                    Log.i(TAG, "->custom message: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));
+                }
                 processCustomMessage(context, bundle);
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
                 //保存服务器推送下来的通知的标题。
@@ -45,17 +51,27 @@ public class JPushReceiver extends BroadcastReceiver {
                 String content = bundle.getString(JPushInterface.EXTRA_ALERT);
                 //保存服务器推送下来的附加字段。这是个 JSON 字符串。
                 extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-                Log.i(TAG, "->notification message title:" + title + ",content：" + content + ",extras：" + extras);
+                if (JPush.debugMode()){
+                    Log.i(TAG, "->notification message title:" + title + ",content：" + content + ",extras：" + extras);
+                }
             } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
-                Log.i(TAG, "->opened notification");
+                if (JPush.debugMode()){
+                    Log.i(TAG, "->opened notification");
+                }
             } else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent.getAction())) {
-                Log.i(TAG, "->rich push callback: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
+                if (JPush.debugMode()){
+                    Log.i(TAG, "->rich push callback: " + bundle.getString(JPushInterface.EXTRA_EXTRA));
+                }
                 //在这里根据 JPushInterface.EXTRA_EXTRA 的内容处理代码，比如打开新的Activity， 打开一个网页等..
             } else if (JPushInterface.ACTION_CONNECTION_CHANGE.equals(intent.getAction())) {
                 boolean connected = intent.getBooleanExtra(JPushInterface.EXTRA_CONNECTION_CHANGE, false);
-                Log.i(TAG, "->connected state change to " + connected);
+                if (JPush.debugMode()){
+                    Log.i(TAG, "->connected state change to " + connected);
+                }
             } else {
-                Log.i(TAG, "->Unhandled intent - " + intent.getAction());
+                if (JPush.debugMode()){
+                    Log.i(TAG, "->Unhandled intent - " + intent.getAction());
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,7 +93,9 @@ public class JPushReceiver extends BroadcastReceiver {
                 sb.append("\n->key:" + key + ", value:" + bundle.getBoolean(key));
             } else if (key.equals(JPushInterface.EXTRA_EXTRA)) {
                 if (TextUtils.isEmpty(bundle.getString(JPushInterface.EXTRA_EXTRA))) {
-                    Log.i(TAG, "->This message has no Extra data");
+                    if (JPush.debugMode()){
+                        Log.i(TAG, "->This message has no Extra data");
+                    }
                     continue;
                 }
                 try {
@@ -108,7 +126,9 @@ public class JPushReceiver extends BroadcastReceiver {
         String title = bundle.getString(JPushInterface.EXTRA_TITLE);
         String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
         extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-        Log.i(TAG, "->processCustomMessage msgId:" + msgId + ",title:" + title + ",message:" + message + ",extras:" + extras);
+        if (JPush.debugMode()){
+            Log.i(TAG, "->processCustomMessage msgId:" + msgId + ",title:" + title + ",message:" + message + ",extras:" + extras);
+        }
     }
 
 }

@@ -3,6 +3,7 @@ package com.android.jpush;
 import android.content.Context;
 import android.content.IntentFilter;
 
+import cn.jiguang.api.JCoreInterface;
 import cn.jpush.android.api.JPushInterface;
 
 /**
@@ -71,6 +72,15 @@ public class JPush {
      */
     public static void setDebugMode(boolean debug) {
         JPushInterface.setDebugMode(debug);
+    }
+
+    /**
+     * 是否调试模式
+     *
+     * @return
+     */
+    public static boolean debugMode() {
+        return JCoreInterface.getDebugMode();
     }
 
     /**
