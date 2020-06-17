@@ -205,11 +205,12 @@ public class JPush {
      *
      * @param context
      */
-    public static void removeJPushListener(Context context) {
+    public static void destroy(Context context) {
         if (receiver != null) {
             context.unregisterReceiver(receiver);
             receiver = null;
         }
+        TagAliasHelper.with(context).destroy();
     }
 
 }

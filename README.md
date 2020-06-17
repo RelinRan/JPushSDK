@@ -55,7 +55,8 @@ dependencies {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        JPush.removeJPushListener(this);
+        //销毁推送，一般程序主页需要
+        JPush.destroy(this);
     }
 ```
 

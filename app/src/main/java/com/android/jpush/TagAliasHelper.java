@@ -305,4 +305,16 @@ public class TagAliasHelper {
         }
     };
 
+    /**
+     * 销毁对象
+     */
+    public void destroy() {
+        if (handler != null) {
+            handler.removeMessages(CHECK_TAG_BIND_STATE);
+            handler.removeMessages(SET_TAG_ALIAS);
+            handler.removeCallbacksAndMessages(null);
+            handler = null;
+        }
+    }
+
 }
