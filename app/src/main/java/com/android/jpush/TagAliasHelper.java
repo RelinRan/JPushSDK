@@ -226,7 +226,9 @@ public class TagAliasHelper {
      * @param jPushMessage 推送消息
      */
     public void onMobileNumberOperatorResult(Context context, JPushMessage jPushMessage) {
-        Log.i(TAG, "->onMobileNumberOperatorResult code:" + jPushMessage.getErrorCode() + ",alias:" + jPushMessage.getAlias());
+        if (debug){
+            Log.i(TAG, "->onMobileNumberOperatorResult code:" + jPushMessage.getErrorCode() + ",alias:" + jPushMessage.getAlias());
+        }
     }
 
 

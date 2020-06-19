@@ -46,7 +46,6 @@
             android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="${applicationId}" />
             </intent-filter>
@@ -81,7 +80,6 @@
                 <action android:name="cn.jpush.android.intent.DaemonService" />
                 <category android:name="${applicationId}" />
             </intent-filter>
-
         </service>
         <!-- since 3.1.0 Required SDK 核心功能-->
         <provider
