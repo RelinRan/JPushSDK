@@ -101,6 +101,9 @@ public class TagAliasHelper {
      * 删除别名
      */
     public void removeAlias() {
+        if (context==null){
+            return;
+        }
         JPushStorage.with(context.getApplicationContext()).put(ALIAS, "");
     }
 
@@ -108,6 +111,9 @@ public class TagAliasHelper {
      * 删除标识
      */
     public void removeTags() {
+        if (context==null){
+            return;
+        }
         JPushStorage.with(context.getApplicationContext()).put(TAGS, "");
     }
 
@@ -115,6 +121,9 @@ public class TagAliasHelper {
      * 删除别名标识
      */
     public void removeTagAlias() {
+        if (context==null){
+            return;
+        }
         JPushStorage.with(context.getApplicationContext()).put(ALIAS, "");
         JPushStorage.with(context.getApplicationContext()).put(TAGS, "");
     }
@@ -125,6 +134,9 @@ public class TagAliasHelper {
      * @param alias
      */
     public void addAlias(String alias) {
+        if (context==null){
+            return;
+        }
         sequence = JPushStorage.with(context.getApplicationContext()).getInt(SEQUENCE, UUID.randomUUID().variant());
         JPushStorage.with(context.getApplicationContext()).put(SEQUENCE, sequence);
         JPushStorage.with(context.getApplicationContext()).put(ALIAS, alias);
@@ -136,6 +148,9 @@ public class TagAliasHelper {
      * @param tags 标识
      */
     public void addTags(String tags) {
+        if (context==null){
+            return;
+        }
         sequence = JPushStorage.with(context.getApplicationContext()).getInt(SEQUENCE, UUID.randomUUID().variant());
         JPushStorage.with(context.getApplicationContext()).put(SEQUENCE, sequence);
         JPushStorage.with(context.getApplicationContext()).put(TAGS, tags);
@@ -147,6 +162,9 @@ public class TagAliasHelper {
      * @param name 别名标识
      */
     public void addAliasTags(String name) {
+        if (context==null){
+            return;
+        }
         sequence = JPushStorage.with(context.getApplicationContext()).getInt(SEQUENCE, UUID.randomUUID().variant());
         JPushStorage.with(context.getApplicationContext()).put(SEQUENCE, sequence);
         JPushStorage.with(context.getApplicationContext()).put(ALIAS, name);
@@ -159,6 +177,9 @@ public class TagAliasHelper {
      * @return
      */
     public String getAlias() {
+        if (context==null){
+            return "";
+        }
         return JPushStorage.with(context.getApplicationContext()).getString(ALIAS, "");
     }
 
@@ -168,6 +189,9 @@ public class TagAliasHelper {
      * @return
      */
     public String getTags() {
+        if (context==null){
+            return null;
+        }
         return JPushStorage.with(context.getApplicationContext()).getString(TAGS, "");
     }
 
@@ -226,7 +250,7 @@ public class TagAliasHelper {
      * @param jPushMessage 推送消息
      */
     public void onMobileNumberOperatorResult(Context context, JPushMessage jPushMessage) {
-        if (debug){
+        if (debug) {
             Log.i(TAG, "->onMobileNumberOperatorResult code:" + jPushMessage.getErrorCode() + ",alias:" + jPushMessage.getAlias());
         }
     }
@@ -249,7 +273,9 @@ public class TagAliasHelper {
             if (debug) {
                 Log.i(TAG, "->无效的设置(3.0.7以前的旧接口设置 tag/alias 不应参数都为 null，3.0.7 开始的新 tag/alias 接口报此错误码表示 tag/alias 参数不能为空)");
             }
-            handler.sendEmptyMessage(SET_TAG_ALIAS);
+            if (handler != null) {
+                handler.sendEmptyMessage(SET_TAG_ALIAS);
+            }
         }
         if (!isReconnect) {
             return;
@@ -258,26 +284,34 @@ public class TagAliasHelper {
             if (debug) {
                 Log.i(TAG, "->无效的设置(3.0.7以前的旧接口设置 tag/alias 不应参数都为 null，3.0.7 开始的新 tag/alias 接口报此错误码表示 tag/alias 参数不能为空)");
             }
-            handler.sendEmptyMessage(SET_TAG_ALIAS);
+            if (handler != null) {
+                handler.sendEmptyMessage(SET_TAG_ALIAS);
+            }
         }
         if (jPushMessage.getErrorCode() == 6022) {
             if (debug) {
                 Log.i(TAG, "->alias 操作正在进行中，暂时不能进行其他 alias 操作。(3.0.7 版本新增的错误码，多次调用 alias 相关的 API，请在获取到上一次调用回调后再做下一次操作；在未取到回调的情况下，等待 20 秒后再做下一次操作。)");
             }
-            handler.sendEmptyMessageDelayed(CHECK_TAG_BIND_STATE, 20 * 1000);
+            if (handler != null) {
+                handler.sendEmptyMessageDelayed(CHECK_TAG_BIND_STATE, 20 * 1000);
+            }
         }
         if (jPushMessage.getErrorCode() == 6014 || jPushMessage.getErrorCode() == 6024) {
             if (jPushMessage.getErrorCode() == 6014) {
                 if (debug) {
                     Log.i(TAG, "->服务器繁忙,建议重试。(3.0.7 版本新增的错误码)");
                 }
-                handler.sendEmptyMessageDelayed(CHECK_TAG_BIND_STATE, 60 * 1000);
+                if (handler != null) {
+                    handler.sendEmptyMessageDelayed(CHECK_TAG_BIND_STATE, 60 * 1000);
+                }
             }
             if (jPushMessage.getErrorCode() == 6024) {
                 if (debug) {
                     Log.i(TAG, "->服务器内部错误。(3.1.1 版本新增的错误码；服务器内部错误，过一段时间再重试。)");
                 }
-                handler.sendEmptyMessageDelayed(CHECK_TAG_BIND_STATE, 60 * 1000);
+                if (handler != null) {
+                    handler.sendEmptyMessageDelayed(CHECK_TAG_BIND_STATE, 60 * 1000);
+                }
             }
         }
     }
@@ -295,13 +329,17 @@ public class TagAliasHelper {
                     if (debug) {
                         Log.i(TAG, "->checkTagBindState sequence：" + getSequence() + ",alias:" + getAlias());
                     }
-                    JPushInterface.checkTagBindState(context.getApplicationContext(), getSequence(), getAlias());
+                    if (context != null) {
+                        JPushInterface.checkTagBindState(context.getApplicationContext(), getSequence(), getAlias());
+                    }
                     break;
                 case SET_TAG_ALIAS:
-                    JPushInterface.setAlias(context.getApplicationContext(), getSequence(), getAlias());
-                    set = new LinkedHashSet<>();
-                    set.add(getTags());
-                    JPushInterface.setTags(context.getApplicationContext(), getSequence(), set);
+                    if (context!=null){
+                        JPushInterface.setAlias(context.getApplicationContext(), getSequence(), getAlias());
+                        set = new LinkedHashSet<>();
+                        set.add(getTags());
+                        JPushInterface.setTags(context.getApplicationContext(), getSequence(), set);
+                    }
                     break;
             }
         }
