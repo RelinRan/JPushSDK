@@ -39,13 +39,19 @@ public class JPushMsgReceiver extends JPushMessageReceiver {
         super.onMobileNumberOperatorResult(context, jPushMessage);
     }
 
-    private void sendReceiver(Context context, String action, JPushMessage jPushMessage) {
-        if (context==null){
-            return;
-        }
-        Intent intent = new Intent(action);
-        intent.putExtra(JPush.EXTRA_OPERATOR_JPUSH_MESSAGE, jPushMessage);
-        context.sendBroadcast(intent);
+    private void sendReceiver(final Context context,final  String action,final  JPushMessage jPushMessage) {
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                if (context==null){
+                    return;
+                }
+                Intent intent = new Intent(action);
+                intent.putExtra(JPush.EXTRA_OPERATOR_JPUSH_MESSAGE, jPushMessage);
+                context.sendBroadcast(intent);
+            }
+        }.start();
     }
 
 }
