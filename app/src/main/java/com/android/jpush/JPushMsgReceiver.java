@@ -40,6 +40,9 @@ public class JPushMsgReceiver extends JPushMessageReceiver {
     }
 
     private void sendReceiver(Context context, String action, JPushMessage jPushMessage) {
+        if (context==null){
+            return;
+        }
         Intent intent = new Intent(action);
         intent.putExtra(JPush.EXTRA_OPERATOR_JPUSH_MESSAGE, jPushMessage);
         context.sendBroadcast(intent);
