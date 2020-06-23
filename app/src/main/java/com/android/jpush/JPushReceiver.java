@@ -31,9 +31,11 @@ public class JPushReceiver extends BroadcastReceiver {
             if (JPush.debugMode()){
                 Log.i(TAG, "->onReceive  action: " + intent.getAction() + ", extras: " + printBundle(bundle));
             }
-            Intent receiverIntent = new Intent(JPush.START_TRANSIT+intent.getAction());
-            receiverIntent.putExtras(bundle);
-            context.sendBroadcast(receiverIntent);
+            if (context!=null){
+                Intent receiverIntent = new Intent(JPush.START_TRANSIT+intent.getAction());
+                receiverIntent.putExtras(bundle);
+                context.sendBroadcast(receiverIntent);
+            }
             if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
                 String regId = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
                 if (JPush.debugMode()){
