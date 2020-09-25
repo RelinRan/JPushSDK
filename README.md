@@ -1,4 +1,4 @@
-# AndroidKit
+# JPushSDK
 Android 极光推送集成（Android aurora push integration） -  [官方API文档](https://docs.jiguang.cn/jpush/client/Android/android_sdk/)
 ## 方法一  ARR依赖
 [JPushSDK.arr](https://github.com/RelinRan/JPushSDK/blob/master/JPushSDK.aar)
@@ -31,7 +31,7 @@ dependencies {
 ### B.项目/app/build.grade
 ```
 	dependencies {
-	        implementation 'com.github.RelinRan:JPushSDK:1.1.1'
+	        implementation 'com.github.RelinRan:JPushSDK:1.1.2'
 	}
 ```
 ### AndroidManifest.xml配置
