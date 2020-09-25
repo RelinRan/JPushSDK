@@ -31,7 +31,6 @@ public class JPushTransitReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-        Log.i(TAG, "->onReceive  action: " + intent.getAction());
         //推送注册ID
         if ((JPush.START_TRANSIT + JPushInterface.ACTION_REGISTRATION_ID).equals(intent.getAction())) {
             String id = bundle.getString(JPushInterface.EXTRA_REGISTRATION_ID);
