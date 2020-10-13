@@ -31,7 +31,7 @@ dependencies {
 ### B.项目/app/build.grade
 ```
 	dependencies {
-	        implementation 'com.github.RelinRan:JPushSDK:1.1.2'
+	        implementation 'com.github.RelinRan:JPushSDK:1.1.3'
 	}
 ```
 ### AndroidManifest.xml配置
@@ -44,12 +44,24 @@ dependencies {
     </application>
 ```
 ### 初始化和销毁
+Application 配置
+```
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        JPush.init(this);
+        //设置调试模式
+        JPush.setDebugMode(true);
+    }
+
+```
+页面上使用
 ```
     private void initJPush(String alias) {
         //消息监听 + Tag/Alias操作监听
         JPush.addJPushMessageListener(XXXX);
         JPush.addJPushAliasTagsListener(XXXX);
-        JPush.init(this, alias);
+        JPush.initAliasTag(this, alias);
     }
 
     @Override

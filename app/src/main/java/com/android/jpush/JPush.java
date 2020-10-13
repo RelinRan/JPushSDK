@@ -3,6 +3,9 @@ package com.android.jpush;
 import android.content.Context;
 import android.content.IntentFilter;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 import cn.jiguang.api.JCoreInterface;
 import cn.jpush.android.api.JPushInterface;
 
@@ -83,13 +86,23 @@ public class JPush {
         return JCoreInterface.getDebugMode();
     }
 
+
     /**
-     * 初始化标签
+     * 初始化SDK
+     *
+     * @param context 上下文对象
+     */
+    public static void init(Context context) {
+        JPushInterface.init(context);
+    }
+
+    /**
+     * 初始化标签和别名
      *
      * @param context
      * @param value
      */
-    public static void init(Context context, String value) {
+    public static void initAliasTag(Context context, String value) {
         int sequence = JPushUser.sequence(context);
         JPushUser.setValue(context, value);
         JPushUser.setSequence(context, String.valueOf(sequence));

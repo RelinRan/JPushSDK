@@ -21,7 +21,7 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class JPushReceiver extends BroadcastReceiver {
 
-    private static final String TAG = "JPushReceiver";
+    private static final String TAG = "JPush-JPushReceiver";
     private String extras;
 
     @Override
