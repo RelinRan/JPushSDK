@@ -41,6 +41,7 @@ public class JPushReceiver extends BroadcastReceiver {
                 if (JPush.debugMode()){
                     Log.i(TAG, "->registration Id : " + regId);
                 }
+                processCustomMessage(context, bundle);
             } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {
                 if (JPush.debugMode()){
                     Log.i(TAG, "->custom message: " + bundle.getString(JPushInterface.EXTRA_MESSAGE));

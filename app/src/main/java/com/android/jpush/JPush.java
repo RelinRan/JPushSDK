@@ -160,6 +160,8 @@ public class JPush {
      */
     private static JPushTransitReceiver receiver;
 
+    private static OnJPushMessageListener messageListener;
+    private static OnJPushAliasTagsListener aliasTagsListener;
     /**
      * 添加消息监听
      *
@@ -167,7 +169,8 @@ public class JPush {
      * @param onJPushMessageListener
      */
     public static void addJPushMessageListener(Context context, OnJPushMessageListener onJPushMessageListener) {
-        addJPushListener(context, onJPushMessageListener, null);
+        messageListener =onJPushMessageListener;
+        addJPushListener(context, messageListener, aliasTagsListener);
     }
 
     /**
@@ -177,7 +180,8 @@ public class JPush {
      * @param onJPushAliasTagsListener
      */
     public static void addJPushAliasTagsListener(Context context, OnJPushAliasTagsListener onJPushAliasTagsListener) {
-        addJPushListener(context, null, onJPushAliasTagsListener);
+        aliasTagsListener = onJPushAliasTagsListener;
+        addJPushListener(context, messageListener, aliasTagsListener);
     }
 
     /**
