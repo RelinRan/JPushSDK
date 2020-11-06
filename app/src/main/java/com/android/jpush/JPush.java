@@ -192,6 +192,8 @@ public class JPush {
      * @param onJPushAliasTagsListener
      */
     public static void addJPushListener(Context context, OnJPushMessageListener onJPushMessageListener, OnJPushAliasTagsListener onJPushAliasTagsListener) {
+        messageListener =onJPushMessageListener;
+        aliasTagsListener = onJPushAliasTagsListener;
         if (receiver == null) {
             receiver = new JPushTransitReceiver();
             receiver.setOnJPushMessageListener(onJPushMessageListener);
