@@ -31,7 +31,7 @@ dependencies {
 ### B.项目/app/build.grade
 ```
 	dependencies {
-	        implementation 'com.github.RelinRan:JPushSDK:1.1.4'
+	        implementation 'com.github.RelinRan:JPushSDK:1.1.5'
 	}
 ```
 ### AndroidManifest.xml配置

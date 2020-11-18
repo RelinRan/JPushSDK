@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -385,10 +386,14 @@ public class TagAliasHelper {
                     break;
                 case SET_TAG_ALIAS:
                     if (context != null) {
-                        JPushInterface.setAlias(context.getApplicationContext(), getSequence(), getAlias());
-                        set = new LinkedHashSet<>();
-                        set.add(getTags());
-                        JPushInterface.setTags(context.getApplicationContext(), getSequence(), set);
+                        if (!TextUtils.isEmpty(getAlias())){
+                            JPushInterface.setAlias(context.getApplicationContext(), getSequence(), getAlias());
+                        }
+                        if (!TextUtils.isEmpty(getTags())){
+                            set = new LinkedHashSet<>();
+                            set.add(getTags());
+                            JPushInterface.setTags(context.getApplicationContext(), getSequence(), set);
+                        }
                     }
                     break;
             }
